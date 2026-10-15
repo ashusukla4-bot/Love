@@ -1,122 +1,325 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Surprise ❤️</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffb6d5">
+  <title>Love Surprise 💖</title>
 
-<style>
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  color: white;
-  background: linear-gradient(135deg, #ff758c, #ff4b7d, #8e44ad);
-  padding: 15px;
-  box-sizing: border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.card {
-  width: 100%;
-  max-width: 400px;
-  padding: 25px;
-  box-sizing: border-box;
-  background: #ffffff25;
-  border: 1px solid #ffffff70;
-  border-radius: 25px;
-  box-shadow: 0 10px 35px #4b123d55;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      color: #8e2456;
+      background: linear-gradient(
+        135deg, #ffe0ef, #ffc3df, #e8d5ff, #fff0f5
+      );
+      background-size: 300% 300%;
+      animation: gradientMove 12s ease infinite;
+    }
 
-.heart {
-  font-size: 65px;
-  animation: beat 1s infinite;
-}
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
 
-input {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-size: 16px;
-}
+    .hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-button {
-  padding: 13px 20px;
-  margin: 8px 4px;
-  border: none;
-  border-radius: 25px;
-  background: white;
-  color: #d62967;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .heart {
+      position: absolute;
+      bottom: -60px;
+      animation: floatUp linear forwards;
+      opacity: 0;
+      user-select: none;
+      filter: drop-shadow(0 4px 8px #e94b8c30);
+    }
 
-#surprise {
-  display: none;
-}
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(.6);
+        opacity: 0;
+      }
+      10% { opacity: .85; }
+      85% { opacity: .7; }
+      100% {
+        transform: translateY(-115vh) rotate(35deg) scale(1.3);
+        opacity: 0;
+      }
+    }
 
-@keyframes beat {
-  50% { transform: scale(1.15); }
-}
-</style>
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      padding: 34px 25px;
+      text-align: center;
+      border: 1px solid #ffffffb8;
+      border-radius: 30px;
+      background: #ffffffa8;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 55px #b94b8230;
+      animation: appear 1s ease both;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(25px) scale(.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .main-heart {
+      font-size: 76px;
+      display: inline-block;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 7px 12px #e83e7c40);
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.15); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.1); }
+    }
+
+    .small-label {
+      margin: 18px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #c34d83;
+    }
+
+    h1 {
+      margin: 8px 0 14px;
+      font-size: clamp(29px, 7vw, 43px);
+      line-height: 1.2;
+      color: #c52d70;
+    }
+
+    .message {
+      max-width: 350px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.8;
+      color: #75435e;
+    }
+
+    .divider {
+      margin: 24px auto;
+      color: #df6c9e;
+      letter-spacing: 8px;
+    }
+
+    .question {
+      font-size: 21px;
+      line-height: 1.5;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      border: none;
+      padding: 14px 25px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      font-family: inherit;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #9b3975;
+      outline-offset: 4px;
+    }
+
+    .yes {
+      color: white;
+      background: linear-gradient(135deg, #ff5795, #d63384);
+      box-shadow: 0 8px 22px #d6338440;
+    }
+
+    .yes:hover {
+      box-shadow: 0 12px 28px #d6338460;
+    }
+
+    .no {
+      color: #b12e6c;
+      background: #fff;
+      box-shadow: 0 5px 15px #a53a6b18;
+    }
+
+    .result {
+      display: none;
+      margin-top: 25px;
+      padding: 20px 14px;
+      border-radius: 20px;
+      background: #fff4f9;
+      animation: appear .5s ease both;
+    }
+
+    .result h2 {
+      margin: 0 0 10px;
+      color: #d63384;
+    }
+
+    .result p {
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .footer {
+      margin-top: 26px;
+      font-size: 12px;
+      color: #a65c7e;
+    }
+
+    @media (max-width: 380px) {
+      .card { padding: 28px 17px; }
+      .message { font-size: 15px; }
+      .question { font-size: 19px; }
+      button { padding: 13px 21px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="card">
-  <div class="heart">💖</div>
-  <h1>A Special Surprise!</h1>
-  <p>Someone has a message for you ❤️</p>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
 
-  <input id="myName" placeholder="Your name">
-  <input id="theirName" placeholder="Their name">
+  <main class="page">
+    <section class="card">
+      <div class="main-heart" aria-hidden="true">💖</div>
 
-  <button onclick="openLove()">Open Surprise 💌</button>
+      <p class="small-label">A little surprise for you</p>
 
-  <div id="surprise">
-    <div class="heart">❤️</div>
-    <h2 id="greeting"></h2>
-    <p id="message"></p>
-    <h2>Will you accept my proposal? 💍</h2>
-    <button onclick="reply('yes')">Yes! ❤️</button>
-    <button onclick="reply('time')">Need some time 😊</button>
-    <p id="answer"></p>
-  </div>
-</div>
+      <h1>Hey, My Special One! 💕</h1>
 
-<script>
-function openLove() {
-  const me = document.getElementById("myName").value.trim();
-  const you = document.getElementById("theirName").value.trim();
+      <p class="message">
+        Tumhari smile mere din ko special bana deti hai.
+        Tumse baat karke dil khush ho jata hai.
+        Aaj tumhare liye ek chhota sa sawaal hai...
+      </p>
 
-  if (!you) {
-    alert("Please enter their name ❤️");
-    return;
-  }
+      <div class="divider" aria-hidden="true">♥ ♥ ♥</div>
 
-  document.getElementById("greeting").textContent =
-    "Dear " + you + " 💖";
+      <p class="question">
+        Will you make my world more beautiful? 🥹💗
+      </p>
 
-  document.getElementById("message").textContent =
-    me ? "With love, " + me + " ❤️"
-       : "Someone has something special to tell you ❤️";
+      <div class="buttons" id="buttons">
+        <button class="yes" id="yesBtn" type="button">
+          Yes 💖
+        </button>
+        <button class="no" id="noBtn" type="button">
+          No 🙈
+        </button>
+      </div>
 
-  document.getElementById("answer").textContent = "";
-  document.getElementById("surprise").style.display = "block";
-}
+      <div class="result" id="result" role="status" aria-live="polite">
+        <h2>Yayyy! 🥰💞</h2>
+        <p>
+          You just made this moment magical! 💖
+          Sending you the biggest virtual hug and
+          a thousand little hearts. 🫂💕
+        </p>
+      </div>
 
-function reply(choice) {
-  document.getElementById("answer").textContent =
-    choice === "yes"
-      ? "Thank you for this beautiful moment! ❤️"
-      : "Take your time. No pressure! 💗";
-}
-</script>
+      <p class="footer">Made with lots of love 💗</p>
+    </section>
+  </main>
+
+  <script>
+    const heartBox = document.getElementById("hearts");
+    const heartTypes = ["💗", "💕", "💖", "💘", "❤️", "💞", "♡"];
+
+    // Create gentle floating hearts.
+    function createHeart() {
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.textContent =
+        heartTypes[Math.floor(Math.random() * heartTypes.length)];
+
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.fontSize = (16 + Math.random() * 25) + "px";
+      heart.style.animationDuration = (7 + Math.random() * 7) + "s";
+
+      heartBox.appendChild(heart);
+
+      heart.addEventListener("animationend", () => heart.remove());
+    }
+
+    // Keep the animation lightweight.
+    for (let i = 0; i < 14; i++) {
+      setTimeout(createHeart, i * 350);
+    }
+
+    setInterval(() => {
+      if (heartBox.childElementCount < 24) createHeart();
+    }, 650);
+
+    // Yes button: show the special message and a burst of hearts.
+    document.getElementById("yesBtn").addEventListener("click", () => {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("buttons").style.display = "none";
+
+      for (let i = 0; i < 18; i++) {
+        setTimeout(createHeart, i * 90);
+      }
+    });
+
+    // A playful No button that moves to a nearby position.
+    const noBtn = document.getElementById("noBtn");
+
+    noBtn.addEventListener("click", () => {
+      const x = Math.round(Math.random() * 100 - 50);
+      const y = Math.round(Math.random() * 60 - 30);
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  </script>
 </body>
 </html>

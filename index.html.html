@@ -1,91 +1,319 @@
-<!doctype html>
-<html lang="hi">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>KAL KA QATIL — Time Loop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>KAL KA QATIL</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050814;color:#eafaff;font-family:system-ui,Arial}
-#game{position:fixed;inset:0}canvas{display:block}
+*{box-sizing:border-box}
+body{margin:0;overflow:hidden;background:#050814;color:white;font-family:Arial,sans-serif}
+canvas{display:block}
 #hud{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
-.panel{background:#071626d9;border:1px solid #35dff477;border-radius:14px;padding:10px 13px;box-shadow:0 0 18px #00d9ff22;backdrop-filter:blur(8px);font-size:13px}
-#objective{max-width:62%;line-height:1.45}#count{font-weight:800;color:#ff8bd5}#timer{font-size:18px;font-weight:900;color:#7ff8ff}
-#guide{position:fixed;top:100px;left:50%;transform:translateX(-50%);padding:9px 15px;border-radius:30px;background:#071626df;border:1px solid #56f5ff99;text-align:center;font-size:13px;white-space:nowrap;box-shadow:0 0 20px #00dfff33}
-#arrow{display:inline-block;color:#68fbff;font-size:20px;font-weight:900;margin-right:7px;animation:arrowPulse .7s infinite alternate}
-@keyframes arrowPulse{to{transform:scale(1.25);text-shadow:0 0 12px #00ffff}}
-#start{position:fixed;inset:0;background:radial-gradient(ellipse at center,#102644ed,#030611f5);display:flex;align-items:center;justify-content:center;padding:22px;z-index:5}
-.card{width:min(480px,100%);padding:25px;border-radius:22px;border:1px solid #5ceeff88;background:#081526f2;box-shadow:0 0 38px #00cfff2b;text-align:center}
-h1{font-size:clamp(28px,7vw,42px);letter-spacing:2px;margin:0 0 6px;color:#8bf8ff;text-shadow:0 0 20px #00dfff88}
-.card p{color:#c4d9e9;line-height:1.55;font-size:14px}.card ul{text-align:left;color:#d6e9f6;line-height:1.8;font-size:14px;padding-left:22px}
-button{border:0;color:#031018;background:linear-gradient(120deg,#7dfbff,#55d9ff);font-weight:900;padding:13px 23px;border-radius:13px;font-size:15px;box-shadow:0 0 22px #00dfff55;cursor:pointer}
-#controls{position:fixed;bottom:18px;left:0;right:0;display:flex;justify-content:space-between;align-items:end;padding:0 18px;pointer-events:none}
-#joy{width:116px;height:116px;border:2px solid #77f6ff88;border-radius:50%;background:#071a2c88;position:relative;pointer-events:auto;touch-action:none;box-shadow:0 0 20px #00dfff22}
-#knob{position:absolute;width:46px;height:46px;left:33px;top:33px;border-radius:50%;background:#83f7ffbb;border:2px solid #eaffff;box-shadow:0 0 16px #00dfff88}
-#act{pointer-events:auto;width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,#ff9cdd,#ff58bc);box-shadow:0 0 25px #ff4bb755;color:#26051b;border:2px solid #ffd5f0}
-#controls small{display:block;text-align:center;color:#c6faff;font-size:10px;margin-top:4px}
-#toast{position:fixed;bottom:150px;left:50%;transform:translateX(-50%);background:#081626eF;border:1px solid #6cf7ff;border-radius:12px;padding:10px 15px;display:none;text-align:center;max-width:90%;font-size:13px}
-@media(min-width:800px){#controls{opacity:.78}#joy{width:100px;height:100px}#knob{left:27px;top:27px}}
-</style></head>
+.panel{background:#071626dd;border:1px solid #42efff;border-radius:12px;padding:12px;box-shadow:0 0 16px #00dfff33;font-size:13px}
+#count{color:#ff80d4;font-weight:bold}
+#timer{color:#7ffaff;font-size:20px;font-weight:bold}
+#guide{position:fixed;top:90px;left:50%;transform:translateX(-50%);padding:10px 14px;border-radius:24px;background:#071626eF;border:1px solid #56f5ff;text-align:center;white-space:nowrap;font-size:13px}
+#arrow{display:inline-block;color:#68fbff;font-size:22px;margin-right:7px}
+#start{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(#102644,#030611)}
+.card{max-width:460px;width:100%;background:#081526;border:1px solid #5ceeff;border-radius:22px;padding:24px;text-align:center;box-shadow:0 0 35px #00cfff30}
+h1{color:#8bf8ff;font-size:34px;text-shadow:0 0 16px #00dfff}
+.card p,.card li{font-size:14px;line-height:1.6;color:#d4e8f6;text-align:left}
+button{border:0;border-radius:14px;padding:14px 20px;background:linear-gradient(120deg,#7dfbff,#55d9ff);font-weight:bold;font-size:15px;cursor:pointer}
+#controls{position:fixed;bottom:18px;left:0;right:0;display:flex;justify-content:space-between;align-items:end;padding:0 20px;pointer-events:none}
+#joy{width:110px;height:110px;border:2px solid #77f6ff99;border-radius:50%;background:#071a2c99;position:relative;pointer-events:auto;touch-action:none}
+#knob{position:absolute;left:31px;top:31px;width:44px;height:44px;border-radius:50%;background:#83f7ffcc;border:2px solid white;box-shadow:0 0 15px cyan}
+#act{pointer-events:auto;width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,#ff9cdd,#ff58bc);color:#26051b}
+small{display:block;text-align:center;color:#bafaff;font-size:11px;margin-top:5px}
+#toast{position:fixed;bottom:145px;left:50%;transform:translateX(-50%);background:#081626;border:1px solid cyan;border-radius:12px;padding:12px;display:none;z-index:4;text-align:center;max-width:90%}
+@media(min-width:800px){#controls{opacity:.8}}
+</style>
+</head>
 <body>
-<div id="game"></div>
-<div id="hud"><div class="panel" id="objective">MISSION: 3 memories dhoondo<br><span id="count">MEMORIES 0 / 3</span></div><div class="panel">TIME LOOP<br><span id="timer">60</span>s</div></div>
-<div id="guide"><span id="arrow">➤</span><span id="guidetext">Pink memory ki direction mein jao</span></div>
-<div id="controls"><div><div id="joy"><div id="knob"></div></div><small>MOVE</small></div><div><button id="act">INTERACT</button><small>Crystal / Exit ke paas dabao</small></div></div>
+<div id="hud">
+  <div class="panel">MISSION<br><span id="count">MEMORIES 0 / 3</span></div>
+  <div class="panel">TIME LOOP<br><span id="timer">60</span>s</div>
+</div>
+<div id="guide"><span id="arrow">➤</span><span id="guidetext">Pink memory ki taraf jao</span></div>
+<div id="controls">
+  <div><div id="joy"><div id="knob"></div></div><small>MOVE</small></div>
+  <div><button id="act">INTERACT</button><small>Crystal / Exit</small></div>
+</div>
 <div id="toast"></div>
-<div id="start"><div class="card"><h1>KAL KA QATIL</h1><p><b>3D TIME-LOOP MYSTERY</b><br>Har loop mein sach ke kareeb jao. Shadow se bachkar niklo!</p><ul><li>Joystick ya WASD / arrow keys se chalo.</li><li>Pink glowing memories ke paas jaakar INTERACT dabao.</li><li>Screen ka cyan arrow agle target ka raasta dikhayega.</li><li>3 memories ke baad cyan EXIT par jao aur INTERACT dabao.</li><li>Shadow pakad le ya time khatam ho, toh loop reset hoga.</li></ul><button id="play">GAME START</button></div></div>
+<div id="start">
+  <div class="card">
+    <h1>KAL KA QATIL</h1>
+    <p><b>3D TIME-LOOP MYSTERY</b></p>
+    <ul>
+      <li>Joystick ya keyboard WASD se chalo.</li>
+      <li>Pink crystals ke paas jaakar INTERACT dabao.</li>
+      <li>Cyan arrow agle target ka raasta dikhayega.</li>
+      <li>3 memories collect karke cyan EXIT par jao.</li>
+      <li>Shadow se bacho aur time khatam hone se pehle niklo!</li>
+    </ul>
+    <button id="play">GAME START</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
-(()=> {
-const mount=document.getElementById('game'), start=document.getElementById('start'), play=document.getElementById('play'), act=document.getElementById('act'), toast=document.getElementById('toast');
-if(!window.THREE){document.getElementById('guidetext').textContent='Internet on karke page reload karo (3D library load nahi hui)';return}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x050814);scene.fog=new THREE.Fog(0x050814,18,48);
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,100);camera.position.set(0,7,10);
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;mount.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0x8adfff,0x170b2b,2));const light=new THREE.PointLight(0x28dfff,30,30);light.position.set(0,8,0);scene.add(light);
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(34,34),new THREE.MeshStandardMaterial({color:0x0b1324,roughness:.75,metalness:.3}));floor.rotation.x=-Math.PI/2;floor.position.y=-.08;floor.receiveShadow=true;scene.add(floor);
-const grid=new THREE.GridHelper(34,34,0x17677e,0x142c47);grid.position.y=-.045;scene.add(grid);
-for(let i=0;i<18;i++){let a=new THREE.Mesh(new THREE.BoxGeometry(.25,THREE.MathUtils.randFloat(1,4),.25),new THREE.MeshStandardMaterial({color:0x11263d,emissive:0x062b40}));a.position.set((Math.random()-.5)*30,a.geometry.parameters.height/2,(Math.random()-.5)*30);scene.add(a)}
-// Humanoid player with animated arms/legs
+(() => {
+if (!window.THREE) {
+ document.getElementById('guidetext').textContent='Internet on karke reload karo';
+ return;
+}
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x050814);
+scene.fog=new THREE.Fog(0x050814,18,45);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,100);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+document.body.appendChild(renderer.domElement);
+renderer.domElement.style.position='fixed';
+renderer.domElement.style.inset='0';
+renderer.domElement.style.zIndex='0';
+document.getElementById('hud').style.zIndex='2';
+document.getElementById('guide').style.zIndex='2';
+document.getElementById('controls').style.zIndex='2';
+
+scene.add(new THREE.HemisphereLight(0x9beaff,0x190a2a,2));
+const light=new THREE.PointLight(0x26dfff,35,35);
+light.position.set(0,8,0);scene.add(light);
+
+const floor=new THREE.Mesh(
+ new THREE.PlaneGeometry(34,34),
+ new THREE.MeshStandardMaterial({color:0x0b1324,metalness:.25,roughness:.8})
+);
+floor.rotation.x=-Math.PI/2;floor.position.y=-.08;scene.add(floor);
+const grid=new THREE.GridHelper(34,34,0x17677e,0x142c47);
+grid.position.y=-.04;scene.add(grid);
+
+// Neon pillars around the arena
+for(let i=0;i<24;i++){
+ const h=1+Math.random()*3;
+ const pillar=new THREE.Mesh(
+  new THREE.BoxGeometry(.25,h,.25),
+  new THREE.MeshStandardMaterial({color:0x123047,emissive:0x062b40})
+ );
+ pillar.position.set((Math.random()-.5)*30,h/2,(Math.random()-.5)*30);
+ scene.add(pillar);
+}
+
+// Humanoid player with moving arms and legs
 const player=new THREE.Group();scene.add(player);
-const suit=new THREE.MeshStandardMaterial({color:0x43dff5,emissive:0x075b70,metalness:.45,roughness:.3});
-const dark=new THREE.MeshStandardMaterial({color:0x172b42,metalness:.25});
-const skin=new THREE.MeshStandardMaterial({color:0xd8f8ff,emissive:0x12303b});
-function part(parent,geo,mat,pos){let m=new THREE.Mesh(geo,mat);m.position.set(...pos);m.castShadow=true;parent.add(m);return m}
-part(player,new THREE.CylinderGeometry(.25,.32,.72,12),suit,[0,1.05,0]);
-part(player,new THREE.SphereGeometry(.25,16,12),skin,[0,1.62,0]);
-part(player,new THREE.BoxGeometry(.28,.07,.08),dark,[0,1.67,-.22]);
+const suit=new THREE.MeshStandardMaterial({color:0x43dff5,emissive:0x075b70});
+const dark=new THREE.MeshStandardMaterial({color:0x172b42});
+const face=new THREE.MeshStandardMaterial({color:0xd8f8ff});
+function part(parent,geometry,material,x,y,z){
+ const mesh=new THREE.Mesh(geometry,material);
+ mesh.position.set(x,y,z);parent.add(mesh);return mesh;
+}
+part(player,new THREE.CylinderGeometry(.25,.32,.72,12),suit,0,1.05,0);
+part(player,new THREE.SphereGeometry(.25,16,12),face,0,1.62,0);
+part(player,new THREE.BoxGeometry(.28,.07,.08),dark,0,1.67,-.22);
 const limbs={};
-limbs.la=part(player,new THREE.CapsuleGeometry(.09,.42,4,8),suit,[-.37,1.12,0]);limbs.la.rotation.z=-.15;
-limbs.ra=part(player,new THREE.CapsuleGeometry(.09,.42,4,8),suit,[.37,1.12,0]);limbs.ra.rotation.z=.15;
-limbs.ll=part(player,new THREE.CapsuleGeometry(.11,.48,4,8),dark,[-.15,.48,0]);
-limbs.rl=part(player,new THREE.CapsuleGeometry(.11,.48,4,8),dark,[.15,.48,0]);
-const crystals=[];const crystalPositions=[new THREE.Vector3(-8,0,-7),new THREE.Vector3(7,0,-5),new THREE.Vector3(5,0,8)];
-crystalPositions.forEach((p,i)=>{const g=new THREE.Group();g.position.copy(p);scene.add(g);const m=part(g,new THREE.OctahedronGeometry(.55),new THREE.MeshStandardMaterial({color:0xff5ccf,emissive:0x9d176e,emissiveIntensity:1.7,metalness:.3,roughness:.2}),[0,1,0]);const ring=new THREE.Mesh(new THREE.TorusGeometry(.8,.035,8,40),new THREE.MeshBasicMaterial({color:0xff73d9}));ring.rotation.x=Math.PI/2;ring.position.y=.45;g.add(ring);crystals.push({g,m,got:false,baseY:1,index:i})});
+limbs.la=part(player,new THREE.CapsuleGeometry(.09,.42,4,8),suit,-.37,1.12,0);
+limbs.ra=part(player,new THREE.CapsuleGeometry(.09,.42,4,8),suit,.37,1.12,0);
+limbs.ll=part(player,new THREE.CapsuleGeometry(.11,.48,4,8),dark,-.15,.48,0);
+limbs.rl=part(player,new THREE.CapsuleGeometry(.11,.48,4,8),dark,.15,.48,0);
+
+// Pink memory crystals
+const crystals=[];
+const positions=[[-8,-7],[7,-5],[5,8]];
+positions.forEach((pos,i)=>{
+ const group=new THREE.Group();
+ group.position.set(pos[0],0,pos[1]);scene.add(group);
+ const gem=new THREE.Mesh(
+  new THREE.OctahedronGeometry(.55),
+  new THREE.MeshStandardMaterial({color:0xff5ccf,emissive:0x9d176e,emissiveIntensity:2})
+ );
+ gem.position.y=1;group.add(gem);
+ const ring=new THREE.Mesh(
+  new THREE.TorusGeometry(.8,.035,8,40),
+  new THREE.MeshBasicMaterial({color:0xff73d9})
+ );
+ ring.rotation.x=Math.PI/2;ring.position.y=.45;group.add(ring);
+ crystals.push({group,gem,got:false});
+});
+
+// Cyan exit portal
 const exit=new THREE.Group();exit.position.set(-7,0,8);scene.add(exit);
-const portal=new THREE.Mesh(new THREE.TorusGeometry(1.15,.12,12,48),new THREE.MeshStandardMaterial({color:0x59ffff,emissive:0x00cfff,emissiveIntensity:2}));portal.position.y=1.25;exit.add(portal);
-const beam=new THREE.Mesh(new THREE.CylinderGeometry(.07,.6,3,16,1,true),new THREE.MeshBasicMaterial({color:0x32faff,transparent:true,opacity:.13,side:THREE.DoubleSide}));beam.position.y=2;exit.add(beam);
-const shadow=new THREE.Group();scene.add(shadow);const smat=new THREE.MeshStandardMaterial({color:0x090514,emissive:0x37002d,emissiveIntensity:1.2});part(shadow,new THREE.CapsuleGeometry(.43,.9,5,10),smat,[0,1,0]);part(shadow,new THREE.SphereGeometry(.32,12,10),smat,[0,1.8,0]);for(let x of [-.12,.12])part(shadow,new THREE.SphereGeometry(.055,8,8),new THREE.MeshBasicMaterial({color:0xff174e}),[x,1.85,-.29]);
-let got=0,time=60,running=false,last=0,elapsed=0;const keys={};let joy={x:0,y:0},moving=false;
-function say(t){toast.textContent=t;toast.style.display='block';clearTimeout(say.t);say.t=setTimeout(()=>toast.style.display='none',2300)}
-function reset(){got=0;time=60;player.position.set(0,0,0);shadow.position.set(10,0,10);crystals.forEach(c=>c.got=false);document.getElementById('count').textContent='MEMORIES 0 / 3';document.getElementById('guidetext').textContent='Pink memory ki direction mein jao';say('Loop reset! Memories dobara collect karo.')}
-function target(){if(got<3)return crystals.find(c=>!c.got)?.g.position||exit.position;return exit.position}
-function interact(){if(!running)return;let near=null,dist=99;crystals.forEach(c=>{if(!c.got){let d=player.position.distanceTo(c.g.position);if(d<dist){dist=d;near=c}}});if(near&&dist<1.8){near.got=true;got++;document.getElementById('count').textContent=`MEMORIES ${got} / 3`;say(got===3?'Teeno memories mil gayi! Cyan EXIT follow karo!':`Memory ${got}/3 collect ho gayi!`);if(got===3)document.getElementById('guidetext').textContent='Cyan EXIT ki taraf jao!';return}if(got===3&&player.position.distanceTo(exit.position)<2.2){running=false;say('YOU ESCAPED THE LOOP! Sach abhi baaki hai…');document.getElementById('guidetext').textContent='MISSION COMPLETE';setTimeout(()=>{start.style.display='flex';start.querySelector('h1').textContent='YOU ESCAPED!';start.querySelector('p').innerHTML='Mission complete!<br>Dobara khelne ke liye button dabao.';play.textContent='PLAY AGAIN'},1300);return}say(got===3?'Cyan EXIT ke aur paas jao.':'Pink memory ke paas jaakar INTERACT dabao.')}
-act.addEventListener('pointerdown',e=>{e.preventDefault();interact()});
-play.addEventListener('click',()=>{start.style.display='none';start.querySelector('h1').textContent='KAL KA QATIL';start.querySelector('p').innerHTML='<b>3D TIME-LOOP MYSTERY</b><br>Har loop mein sach ke kareeb jao. Shadow se bachkar niklo!';play.textContent='GAME START';reset();running=true;last=performance.now()});
-addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(e.key===' '||e.key==='e')interact()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-const joyel=document.getElementById('joy'),knob=document.getElementById('knob');let active=false;
-function joyMove(e){const r=joyel.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy,max=35,len=Math.hypot(dx,dy);if(len>max){dx=dx/len*max;dy=dy/len*max}joy.x=dx/max;joy.y=dy/max;knob.style.transform=`translate(${dx}px,${dy}px)`}
-joyel.addEventListener('pointerdown',e=>{active=true;joyel.setPointerCapture(e.pointerId);joyMove(e)});joyel.addEventListener('pointermove',e=>{if(active)joyMove(e)});function joyEnd(){active=false;joy.x=joy.y=0;knob.style.transform='translate(0,0)'}joyel.addEventListener('pointerup',joyEnd);joyel.addEventListener('pointercancel',joyEnd);
-function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.04)||0;last=now;elapsed+=dt;
-crystals.forEach((c,i)=>{c.g.rotation.y+=dt*1.2;c.m.rotation.x+=dt*.7;c.g.position.y=Math.sin(elapsed*2+i)*.12;if(!c.got)c.m.material.emissiveIntensity=1.3+Math.sin(elapsed*4+i)*.6;c.g.visible=!c.got});
-portal.rotation.z+=dt*.8;beam.material.opacity=.1+Math.sin(elapsed*3)*.05;
-if(running){time-=dt;if(time<=0){reset();}let x=(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x;let z=(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0)+joy.y;let len=Math.hypot(x,z);moving=len>.12;if(len>1){x/=len;z/=len}const speed=3.5;player.position.x+=x*speed*dt;player.position.z+=z*speed*dt;player.position.x=THREE.MathUtils.clamp(player.position.x,-15,15);player.position.z=THREE.MathUtils.clamp(player.position.z,-15,15);
-const swing=moving?Math.sin(elapsed*12)*.65:Math.sin(elapsed*2)*.04;limbs.la.rotation.x=swing;limbs.ra.rotation.x=-swing;limbs.ll.rotation.x=-swing;limbs.rl.rotation.x=swing;player.position.y=moving?Math.abs(Math.sin(elapsed*12))*.07:Math.sin(elapsed*2)*.025;player.rotation.y=moving?Math.atan2(x,z):player.rotation.y;
-const to=target(),dx=to.x-player.position.x,dz=to.z-player.position.z;const a=Math.atan2(dx,dz);document.getElementById('arrow').style.transform=`rotate(${a}rad)`;document.getElementById('guidetext').textContent=got===3?'Cyan EXIT ki taraf jao!':`Memory ${got+1}/3 ki taraf jao`;
-const sd=shadow.position.distanceTo(player.position);if(sd>1.3){shadow.position.lerp(new THREE.Vector3(player.position.x+(player.position.x-shadow.position.x)*.25,0,player.position.z+(player.position.z-shadow.position.z)*.25),dt*.18);shadow.position.x+=Math.sign(player.position.x-shadow.position.x)*dt*.45;shadow.position.z+=Math.sign(player.position.z-shadow.position.z)*dt*.45}else{reset();say('Shadow ne pakad liya! Naya loop shuru.')}
-document.getElementById('timer').textContent=Math.ceil(time);
-}else{limbs.la.rotation.x=limbs.ra.rotation.x=limbs.ll.rotation.x=limbs.rl.rotation.x=0}
-camera.position.lerp(new THREE.Vector3(player.position.x,player.position.y+6,player.position.z+8),.07);camera.lookAt(player.position.x,player.position.y+.7,player.position.z);
-renderer.render(scene,camera)}
-requestAnimationFrame(animate);addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+const portal=new THREE.Mesh(
+ new THREE.TorusGeometry(1.15,.12,12,48),
+ new THREE.MeshStandardMaterial({color:0x59ffff,emissive:0x00cfff,emissiveIntensity:2})
+);
+portal.position.y=1.25;exit.add(portal);
+const beam=new THREE.Mesh(
+ new THREE.CylinderGeometry(.07,.6,3,16,1,true),
+ new THREE.MeshBasicMaterial({color:0x32faff,transparent:true,opacity:.15,side:THREE.DoubleSide})
+);
+beam.position.y=2;exit.add(beam);
+
+// Shadow enemy
+const shadow=new THREE.Group();scene.add(shadow);
+const shadowMat=new THREE.MeshStandardMaterial({color:0x090514,emissive:0x37002d});
+part(shadow,new THREE.CapsuleGeometry(.43,.9,5,10),shadowMat,0,1,0);
+part(shadow,new THREE.SphereGeometry(.32,12,10),shadowMat,0,1.8,0);
+for(const x of [-.12,.12]){
+ part(shadow,new THREE.SphereGeometry(.055,8,8),
+ new THREE.MeshBasicMaterial({color:0xff174e}),x,1.85,-.29);
+}
+
+let got=0,time=60,running=false,elapsed=0,last=0;
+const keys={};const joy={x:0,y:0};
+const toast=document.getElementById('toast');
+function say(message){
+ toast.textContent=message;toast.style.display='block';
+ clearTimeout(say.timeout);
+ say.timeout=setTimeout(()=>toast.style.display='none',2200);
+}
+function target(){
+ if(got<3)return crystals.find(c=>!c.got).group.position;
+ return exit.position;
+}
+function reset(){
+ got=0;time=60;
+ player.position.set(0,0,0);
+ shadow.position.set(10,0,10);
+ crystals.forEach(c=>{c.got=false;c.group.visible=true;});
+ document.getElementById('count').textContent='MEMORIES 0 / 3';
+ document.getElementById('guidetext').textContent='Pink memory ki taraf jao';
+}
+function interact(){
+ if(!running)return;
+ let nearest=null,dist=99;
+ crystals.forEach(c=>{
+  if(!c.got){
+   const d=player.position.distanceTo(c.group.position);
+   if(d<dist){dist=d;nearest=c;}
+  }
+ });
+ if(nearest&&dist<1.8){
+  nearest.got=true;nearest.group.visible=false;got++;
+  document.getElementById('count').textContent=`MEMORIES ${got} / 3`;
+  if(got===3){
+   say('Teeno memories mil gayi! Cyan EXIT par jao!');
+   document.getElementById('guidetext').textContent='Cyan EXIT ki taraf jao!';
+  }else say(`Memory ${got}/3 collect ho gayi!`);
+  return;
+ }
+ if(got===3&&player.position.distanceTo(exit.position)<2.2){
+  running=false;
+  say('YOU ESCAPED THE LOOP!');
+  document.getElementById('guidetext').textContent='MISSION COMPLETE';
+  setTimeout(()=>{
+   document.getElementById('start').style.display='flex';
+   document.querySelector('#start h1').textContent='YOU ESCAPED!';
+   document.querySelector('#start p').textContent='Mission complete! Dobara khelne ke liye dabao.';
+   document.getElementById('play').textContent='PLAY AGAIN';
+  },1200);
+ }else say(got===3?'Cyan EXIT ke aur paas jao.':'Pink crystal ke paas jao.');
+}
+document.getElementById('act').addEventListener('pointerdown',e=>{e.preventDefault();interact();});
+document.getElementById('play').addEventListener('click',()=>{
+ document.getElementById('start').style.display='none';
+ document.querySelector('#start h1').textContent='KAL KA QATIL';
+ document.querySelector('#start p').innerHTML='<b>3D TIME-LOOP MYSTERY</b>';
+ document.getElementById('play').textContent='GAME START';
+ reset();running=true;last=performance.now();
+});
+addEventListener('keydown',e=>{
+ keys[e.key.toLowerCase()]=true;
+ if(e.key===' '||e.key.toLowerCase()==='e')interact();
+});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+
+// Mobile joystick
+const joyEl=document.getElementById('joy');
+const knob=document.getElementById('knob');
+let joyActive=false;
+function moveJoy(e){
+ const r=joyEl.getBoundingClientRect();
+ let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
+ const max=32,len=Math.hypot(dx,dy);
+ if(len>max){dx=dx/len*max;dy=dy/len*max;}
+ joy.x=dx/max;joy.y=dy/max;
+ knob.style.transform=`translate(${dx}px,${dy}px)`;
+}
+joyEl.addEventListener('pointerdown',e=>{
+ joyActive=true;joyEl.setPointerCapture(e.pointerId);moveJoy(e);
+});
+joyEl.addEventListener('pointermove',e=>{if(joyActive)moveJoy(e);});
+function endJoy(){
+ joyActive=false;joy.x=joy.y=0;knob.style.transform='translate(0,0)';
+}
+joyEl.addEventListener('pointerup',endJoy);
+joyEl.addEventListener('pointercancel',endJoy);
+
+function animate(now){
+ requestAnimationFrame(animate);
+ const dt=Math.min((now-last)/1000,.04)||0;
+ last=now;elapsed+=dt;
+
+ crystals.forEach((c,i)=>{
+  c.group.rotation.y+=dt*1.2;
+  c.gem.rotation.x+=dt*.7;
+  c.gem.position.y=1+Math.sin(elapsed*2+i)*.12;
+  c.gem.material.emissiveIntensity=1.5+Math.sin(elapsed*4+i)*.5;
+ });
+ portal.rotation.z+=dt*.8;
+ beam.material.opacity=.12+Math.sin(elapsed*3)*.05;
+
+ if(running){
+  time-=dt;
+  if(time<=0){reset();say('Time khatam! Loop reset.');}
+  let x=(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0)+joy.x;
+  let z=(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0)+joy.y;
+  const len=Math.hypot(x,z);
+  const moving=len>.12;
+  if(len>1){x/=len;z/=len;}
+  const speed=3.5;
+  player.position.x+=x*speed*dt;
+  player.position.z+=z*speed*dt;
+  player.position.x=THREE.MathUtils.clamp(player.position.x,-15,15);
+  player.position.z=THREE.MathUtils.clamp(player.position.z,-15,15);
+
+  const swing=moving?Math.sin(elapsed*12)*.65:0;
+  limbs.la.rotation.x=swing;
+  limbs.ra.rotation.x=-swing;
+  limbs.ll.rotation.x=-swing;
+  limbs.rl.rotation.x=swing;
+  player.position.y=moving?Math.abs(Math.sin(elapsed*12))*.07:0;
+  if(moving)player.rotation.y=Math.atan2(x,z);
+
+  const t=target();
+  const angle=Math.atan2(t.x-player.position.x,t.z-player.position.z);
+  document.getElementById('arrow').style.transform=`rotate(${angle}rad)`;
+  document.getElementById('guidetext').textContent=
+   got===3?'Cyan EXIT ki taraf jao!':`Memory ${got+1}/3 ki taraf jao`;
+
+  // Shadow follows the player
+  const dx=player.position.x-shadow.position.x;
+  const dz=player.position.z-shadow.position.z;
+  const distance=Math.hypot(dx,dz);
+  if(distance>1.25){
+   shadow.position.x+=dx*dt*.25;
+   shadow.position.z+=dz*dt*.25;
+  }else{
+   reset();say('Shadow ne pakad liya! Loop reset.');
+  }
+  document.getElementById('timer').textContent=Math.ceil(time);
+ }
+
+ camera.position.lerp(
+  new THREE.Vector3(player.position.x,player.position.y+6,player.position.z+8),.07
+ );
+ camera.lookAt(player.position.x,player.position.y+.7,player.position.z);
+ renderer.render(scene,camera);
+}
+requestAnimationFrame(animate);
+addEventListener('resize',()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+});
 })();
-</script></body></html>
+</script>
+</body>
+</html>

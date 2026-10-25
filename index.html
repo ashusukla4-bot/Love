@@ -1,14 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Love Surprise ❤️ | Created by Ashu</title>
-
-<meta name="theme-color" content="#ff6b9d">
-<meta name="description" content="A little romantic surprise made with love by Ashu.">
+<title>Our Love Story 💖</title>
 
 <style>
 * {
@@ -18,153 +13,114 @@
 }
 
 body {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Arial, sans-serif;
   min-height: 100vh;
+  text-align: center;
   color: #fff;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3, #c471ed);
+  background: linear-gradient(135deg, #ff5c9a, #8e44ad, #ff9a9e);
+  padding: 20px;
   overflow-x: hidden;
 }
 
-.screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 16px;
-}
-
-.card {
-  width: 100%;
-  max-width: 480px;
-  padding: 32px 23px;
-  text-align: center;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.45);
-  border-radius: 26px;
-  box-shadow: 0 15px 45px rgba(100,0,50,.2);
+.container {
+  max-width: 650px;
+  margin: 25px auto;
+  padding: 25px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 25px;
+  box-shadow: 0 10px 40px #4b123a55;
   backdrop-filter: blur(12px);
-  animation: appear .8s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.heart {
-  font-size: 65px;
-  animation: beat 1s infinite;
 }
 
 h1 {
-  font-size: clamp(27px, 7vw, 37px);
-  margin: 16px 0;
-  overflow-wrap: anywhere;
+  font-size: 35px;
+  margin: 15px 0;
 }
 
 p {
-  font-size: 16px;
-  line-height: 1.8;
-  margin-bottom: 16px;
+  line-height: 1.7;
+  margin: 12px 0;
 }
 
 input {
   width: 100%;
-  padding: 15px;
-  border: 2px solid transparent;
+  padding: 14px;
+  margin: 9px 0;
+  border: none;
+  border-radius: 12px;
   outline: none;
-  border-radius: 14px;
   font-size: 16px;
-  text-align: center;
-  margin: 10px 0 18px;
-}
-
-input:focus {
-  border-color: #d63370;
 }
 
 button {
-  padding: 14px 22px;
+  padding: 13px 20px;
+  margin: 8px;
   border: none;
   border-radius: 30px;
-  background: #fff;
-  color: #df326e;
-  font-size: 16px;
+  background: #ff176f;
+  color: white;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
-  transition: transform .2s;
-  max-width: 100%;
+  transition: 0.3s;
 }
 
 button:hover {
-  transform: scale(1.04);
+  transform: scale(1.05);
+  background: #e6005c;
 }
 
-button:focus-visible {
-  outline: 3px solid #8c174b;
-  outline-offset: 4px;
+.anime {
+  width: 100%;
+  max-width: 380px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 20px;
+  margin: 15px auto;
+  display: block;
+  background: #ffc1dc;
 }
 
-.creator {
-  margin-top: 24px;
-  font-size: 14px;
-  letter-spacing: .4px;
-}
-
-.creator strong {
-  color: #fff9a8;
-}
-
-#letterPage {
+#letter {
   display: none;
+  margin-top: 25px;
+  padding: 20px;
+  background: #fff0f6;
+  color: #b4145b;
+  border-radius: 20px;
+  animation: appear 0.8s ease;
 }
 
-.letter {
-  padding: 23px 18px;
-  background: #fff8fc;
-  color: #8b2851;
-  border-radius: 18px;
-  text-align: left;
-  line-height: 1.9;
-  margin: 22px 0;
-  overflow-wrap: anywhere;
+#letter p {
+  white-space: pre-line;
 }
 
-.letter h2 {
-  text-align: center;
-  margin-bottom: 18px;
+#yesMessage {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 15px;
 }
 
-.letter p {
-  font-size: 16px;
-  margin-bottom: 16px;
-}
-
-.signature {
-  text-align: right;
-  font-style: italic;
-  margin-top: 22px;
-}
-
-.floating-heart {
+.heart {
   position: fixed;
-  bottom: -35px;
+  bottom: -40px;
   pointer-events: none;
-  z-index: 1;
-  animation: rise 5s linear forwards;
+  animation: floatUp 5s linear forwards;
+  z-index: 10;
 }
 
-.small {
-  font-size: 12px;
-  margin-top: 18px;
-  margin-bottom: 0;
-}
-
-@keyframes beat {
-  50% { transform: scale(1.15); }
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 @keyframes appear {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
@@ -172,192 +128,228 @@ button:focus-visible {
   }
 }
 
-@keyframes rise {
-  to {
-    transform: translateY(-110vh) rotate(360deg);
-    opacity: 0;
-  }
+.music-box {
+  margin-top: 25px;
 }
 
-@media (max-width: 400px) {
-  .card { padding: 26px 17px; }
-  .letter { padding: 18px 14px; }
+audio {
+  width: 100%;
+  margin-top: 12px;
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  .container {
+    padding: 17px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Floating hearts -->
-<div id="hearts" aria-hidden="true"></div>
+<div class="container">
 
-<!-- HOME PAGE -->
-<main>
-<section class="screen" id="homePage">
-  <div class="card">
+  <h1>💖 Our Love Story 💖</h1>
 
-    <div class="heart" aria-hidden="true">💖</div>
+  <p>
+    Someone special ke liye ek chhota sa surprise! 🌹
+    <br>
+    Apne naam likho aur magic dekho.
+  </p>
 
-    <h1>Ek Chhota Sa Surprise!</h1>
+  <img
+    id="animeImage"
+    class="anime"
+    src="https://api.waifu.pics/sfw/waifu"
+    alt="Anime girl illustration"
+  >
 
-    <p>
-      Mere dil ki ek special baat hai...
-      ❤️<br>
-      Lekin use jaanne ke liye pehle
-      apna pyara sa naam likho. 🥰
-    </p>
+  <form id="loveForm">
+    <input
+      type="text"
+      id="yourName"
+      placeholder="Tumhara naam 💗"
+      maxlength="35"
+      required
+    >
 
-    <form id="surpriseForm">
-      <input
-        id="personName"
-        type="text"
-        placeholder="Yahan apna naam likho ❤️"
-        maxlength="40"
-        autocomplete="off"
-        aria-label="Apna naam likho"
-        required
-      >
+    <input
+      type="text"
+      id="partnerName"
+      placeholder="Unka naam 💕"
+      maxlength="35"
+      required
+    >
 
-      <button type="submit">
-        Yes! Surprise Dikhao 💌
-      </button>
-    </form>
+    <button type="submit">
+      Open My Surprise 💌
+    </button>
+  </form>
 
-    <p class="creator">
-      ✨ Created with ❤️ by <strong>Ashu</strong> ✨
-    </p>
+  <div id="letter">
+    <h2 id="letterTitle">My Dear ❤️</h2>
 
-    <p class="small">A little surprise, made with lots of love 💕</p>
+    <p id="letterText"></p>
 
-  </div>
-</section>
+    <div style="font-size:45px">💗💖💗</div>
 
-<!-- LOVE LETTER PAGE -->
-<section class="screen" id="letterPage">
-  <div class="card">
-
-    <div class="heart" aria-hidden="true">💌</div>
-
-    <h1>For You, <span id="displayName"></span> ❤️</h1>
-
-    <p>Tumhare liye dil se likha ek khat...</p>
-
-    <article class="letter">
-      <h2>My Dear ❤️</h2>
-
-      <p>
-        Dear <strong id="letterName"></strong>,
-      </p>
-
-      <p>
-        Pata nahi tumhe kaise bataun ki tum
-        mere liye kitne special ho.
-        Tumhari ek smile mere din ko khoobsurat
-        bana sakti hai. 🥹❤️
-      </p>
-
-      <p>
-        Agar zindagi ek kitaab hai, toh main
-        chahta hoon ki uske sabse khoobsurat
-        panne tumhare saath likhun.
-        Har khushi mein tumhara saath ho,
-        aur har mushkil mein tumhara haath. 💕
-      </p>
-
-      <p>
-        Tumhari khushi mere liye bahut maayne
-        rakhti hai. Hamesha muskurate rehna,
-        kyunki tumhari smile sach mein special hai. 🌹
-      </p>
-
-      <p>
-        Ye chhota sa surprise sirf tumhare liye hai.
-        Umeed hai tumhare chehre par ek pyari si
-        smile aayi hogi. 🫶
-      </p>
-
-      <div class="signature">
-        Lots of Love,<br>
-        Tumhara Secret Admirer 💖
-      </div>
-    </article>
-
-    <p>
-      ✨ Created with ❤️ by <strong>Ashu</strong> ✨
-    </p>
-
-    <button type="button" id="backButton">
-      Dobara Dekho 💗
+    <button id="yesButton" type="button">
+      YES 💞
     </button>
 
-    <p class="small">Forever with love 💕</p>
+    <button id="copyButton" type="button">
+      Copy Love Letter 💌
+    </button>
 
+    <button id="animeButton" type="button">
+      Change Anime 🌸
+    </button>
+
+    <div id="yesMessage"></div>
   </div>
-</section>
-</main>
+
+  <div class="music-box">
+    <h2>🎵 Our Special Song 🎵</h2>
+
+    <p>
+      Apne mobile ya laptop se music file select karo.
+    </p>
+
+    <input
+      type="file"
+      id="musicFile"
+      accept="audio/*"
+    >
+
+    <audio id="musicPlayer" controls loop></audio>
+  </div>
+
+  <p style="margin-top:25px">
+    Made with ❤️ just for you
+  </p>
+
+</div>
 
 <script>
-const form = document.getElementById("surpriseForm");
-const homePage = document.getElementById("homePage");
-const letterPage = document.getElementById("letterPage");
-const personName = document.getElementById("personName");
-const displayName = document.getElementById("displayName");
-const letterName = document.getElementById("letterName");
-const heartsContainer = document.getElementById("hearts");
+const $ = id => document.getElementById(id);
 
-let heartTimer;
+let yourName = "";
+let partnerName = "";
+let loveLetter = "";
 
-form.addEventListener("submit", function(event) {
+$("loveForm").addEventListener("submit", function(event) {
   event.preventDefault();
 
-  const name = personName.value.trim();
+  yourName = $("yourName").value.trim();
+  partnerName = $("partnerName").value.trim();
 
-  if (!name) {
-    personName.focus();
+  if (!yourName || !partnerName) {
+    alert("Dono naam likho ❤️");
     return;
   }
 
-  // Safe text insertion: the entered name is not treated as HTML.
-  displayName.textContent = name;
-  letterName.textContent = name;
+  $("letterTitle").textContent =
+    "My Dear " + partnerName + " 💖";
 
-  homePage.style.display = "none";
-  letterPage.style.display = "flex";
+  loveLetter =
+    "Dear " + partnerName + ", ❤️\n\n" +
+    "Tum meri life ke ek bahut special insaan ho. " +
+    "Tumhari smile mere din ko beautiful bana sakti hai. " +
+    "Tumse baat karna aur tumhari khushi dekhna mere liye " +
+    "bahut precious hai. 🌹\n\n" +
+    "Main chahta/chahti hoon ki tum hamesha khush raho, " +
+    "apne saare dreams poore karo aur life mein aage badho. " +
+    "Agar tum bhi chaho, toh hum ek beautiful story " +
+    "saath mein shuru kar sakte hain. 💕\n\n" +
+    "With lots of love and care,\n" +
+    yourName + " 💌";
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  $("letterText").textContent = loveLetter;
+  $("letter").style.display = "block";
+  $("yesMessage").textContent = "";
 
-  startHearts();
+  $("letter").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  makeHearts(20);
 });
 
-document.getElementById("backButton").addEventListener("click", function() {
-  letterPage.style.display = "none";
-  homePage.style.display = "flex";
+$("yesButton").addEventListener("click", function() {
+  $("yesMessage").textContent =
+    "Yay! 💖 " + yourName + " & " +
+    partnerName + " — A beautiful story begins! 🌹";
 
-  clearInterval(heartTimer);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  makeHearts(35);
 });
 
-function startHearts() {
-  clearInterval(heartTimer);
+$("copyButton").addEventListener("click", async function() {
+  try {
+    await navigator.clipboard.writeText(loveLetter);
+    $("copyButton").textContent = "Copied! 💗";
+  } catch (error) {
+    const area = document.createElement("textarea");
+    area.value = loveLetter;
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand("copy");
+    area.remove();
+    $("copyButton").textContent = "Copied! 💗";
+  }
+});
 
-  heartTimer = setInterval(function() {
+$("animeButton").addEventListener("click", function() {
+  $("animeImage").src =
+    "https://api.waifu.pics/sfw/waifu?t=" + Date.now();
+});
+
+$("animeImage").addEventListener("error", function() {
+  this.alt = "Anime image unavailable. Check your internet connection.";
+});
+
+function makeHearts(count) {
+  for (let i = 0; i < count; i++) {
     const heart = document.createElement("span");
 
-    heart.className = "floating-heart";
-    heart.textContent = ["❤️", "💖", "💕", "💗", "💘"][
-      Math.floor(Math.random() * 5)
-    ];
+    heart.className = "heart";
+
+    const symbols = ["💖", "💗", "💕", "❤️", "🌸", "✨"];
+
+    heart.textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
 
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (18 + Math.random() * 20) + "px";
+    heart.style.fontSize =
+      (18 + Math.random() * 25) + "px";
 
-    heartsContainer.appendChild(heart);
+    heart.style.animationDuration =
+      (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(heart);
 
     setTimeout(function() {
       heart.remove();
-    }, 5000);
-  }, 350);
+    }, 6500);
+  }
 }
+
+$("musicFile").addEventListener("change", function(event) {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  const player = $("musicPlayer");
+
+  player.src = URL.createObjectURL(file);
+  player.play().catch(function() {
+    // Agar autoplay block ho, controls par Play dabao.
+  });
+});
 </script>
 
 </body>
